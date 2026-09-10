@@ -1,0 +1,30 @@
+{
+  "name": "PreparedMeal",
+  "type": "object",
+  "description": "Batch-prepared portions in fridge or freezer",
+  "properties": {
+    "household_id": { "type": "string" },
+    "recipe_id": { "type": "string" },
+    "name": { "type": "string" },
+    "portions_prepared": { "type": "integer", "default": 1 },
+    "portions_remaining": { "type": "integer", "default": 1 },
+    "storage_location": { "type": "string", "default": "Fridge" },
+    "storage_type": {
+      "type": "string",
+      "enum": ["ready_now", "fridge", "freezer"],
+      "default": "fridge"
+    },
+    "prepared_date": { "type": "string", "format": "date" },
+    "expiry_date": { "type": "string", "format": "date" },
+    "portion_size_label": { "type": "string", "default": "small" },
+    "reheat_notes": { "type": "string" },
+    "prepared_by": { "type": "string" }
+  },
+  "required": ["household_id", "name", "portions_remaining"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

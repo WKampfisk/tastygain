@@ -1,0 +1,93 @@
+{
+  "name": "Recipe",
+  "type": "object",
+  "description": "Food prep, dinner, smoothie/shake, or snack recipe",
+  "properties": {
+    "household_id": { "type": "string" },
+    "name": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["food_prep", "dinner", "smoothie_shake", "snack_small", "soup", "dessert"],
+      "default": "snack_small"
+    },
+    "description": { "type": "string" },
+    "prep_minutes": { "type": "integer", "default": 5 },
+    "cook_minutes": { "type": "integer", "default": 0 },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "batch"],
+      "default": "easy"
+    },
+    "portions": { "type": "integer", "default": 1 },
+    "portion_size_label": { "type": "string", "default": "small" },
+    "ingredients": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "quantity": { "type": "string" },
+          "unit": { "type": "string" },
+          "optional": { "type": "boolean" }
+        }
+      }
+    },
+    "steps": { "type": "array", "items": { "type": "string" } },
+    "storage_notes": { "type": "string" },
+    "fridge_days": { "type": "integer" },
+    "freezer_days": { "type": "integer" },
+    "reheat_notes": { "type": "string" },
+    "allergens": { "type": "array", "items": { "type": "string" } },
+    "texture": { "type": "string" },
+    "temperature": { "type": "string", "enum": ["hot", "cold", "either"] },
+    "protein_source": { "type": "string" },
+    "protein_g": {
+      "type": "number",
+      "description": "Estimated protein grams per portion"
+    },
+    "flavor_tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "sweet, salty, cake, candy"
+    },
+    "energy_density": {
+      "type": "string",
+      "enum": ["low", "moderate", "high"],
+      "default": "high"
+    },
+    "cost_estimate_ore": { "type": "integer" },
+    "make_richer": { "type": "string" },
+    "make_smaller": { "type": "string" },
+    "make_easier": { "type": "string" },
+    "is_system": { "type": "boolean", "default": false },
+    "is_generated": { "type": "boolean", "default": false },
+    "generated_from_id": { "type": "string" },
+    "generated_from_name": { "type": "string" },
+    "suitable_food_notes": {
+      "type": "string",
+      "description": "Når og hvordan maten egner seg (flytende, myk, vanskelige dager)"
+    },
+    "containers": {
+      "type": "array",
+      "description": "Anbefalte mat- og shakebeholdere per porsjon",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "count_per_portion": { "type": "number" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "low_effort": { "type": "boolean", "default": true },
+    "difficult_day_suitable": { "type": "boolean", "default": true },
+    "icon": { "type": "string", "default": "bowl" }
+  },
+  "required": ["name", "category"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

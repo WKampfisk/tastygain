@@ -1,0 +1,48 @@
+{
+  "name": "Reminder",
+  "type": "object",
+  "description": "Optional gentle reminder — never punitive",
+  "properties": {
+    "household_id": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "offer_small_meal",
+        "prepare_smoothie",
+        "freezer_to_fridge",
+        "start_dinner",
+        "check_portions",
+        "buy_groceries",
+        "restock_drinks",
+        "prep_tomorrow",
+        "check_expiry",
+        "calm_meal_together",
+        "appointment",
+        "review_preferences"
+      ],
+      "default": "check_portions"
+    },
+    "message": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "time": { "type": "string" },
+    "repeat": {
+      "type": "string",
+      "enum": ["none", "daily", "weekly"],
+      "default": "none"
+    },
+    "discreet_mode": { "type": "boolean", "default": false },
+    "enabled": { "type": "boolean", "default": true },
+    "recipient": {
+      "type": "string",
+      "enum": ["supporter", "shared"],
+      "default": "supporter"
+    }
+  },
+  "required": ["household_id", "message"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

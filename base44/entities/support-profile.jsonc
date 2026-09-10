@@ -1,0 +1,39 @@
+{
+  "name": "SupportProfile",
+  "type": "object",
+  "description": "Food preferences and tolerance for the supported person",
+  "properties": {
+    "household_id": { "type": "string" },
+    "display_name": { "type": "string" },
+    "role": {
+      "type": "string",
+      "enum": ["supporter", "supported"],
+      "default": "supporter"
+    },
+    "favourite_foods": { "type": "array", "items": { "type": "string" } },
+    "safe_foods": { "type": "array", "items": { "type": "string" } },
+    "avoided_foods": { "type": "array", "items": { "type": "string" } },
+    "allergies": { "type": "array", "items": { "type": "string" } },
+    "preferred_textures": { "type": "array", "items": { "type": "string" } },
+    "preferred_temperature": {
+      "type": "string",
+      "enum": ["hot", "cold", "either", "varies"],
+      "default": "either"
+    },
+    "prefer_liquid": { "type": "boolean", "default": true },
+    "preferred_portion": {
+      "type": "string",
+      "enum": ["very_small", "small", "medium"],
+      "default": "small"
+    },
+    "difficult_day_foods": { "type": "array", "items": { "type": "string" } },
+    "notes_private": { "type": "string", "description": "Private notes — never in doctor summary by default" }
+  },
+  "required": ["household_id"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

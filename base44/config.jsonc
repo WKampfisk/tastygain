@@ -1,0 +1,11 @@
+{
+  "name": "TastyGain",
+  "description": "TastyGain — small tasty portions (sweet, salty, cake, candy) so you eat enough to gain muscle. Norwegian shopping, kitchen stock, meal planning — not a medical tool.",
+  "visibility": "public",
+  "site": {
+    "installCommand": "npm install",
+    "buildCommand": "npm run build",
+    "serveCommand": "npm run dev",
+    "outputDirectory": "./dist"
+  }
+}

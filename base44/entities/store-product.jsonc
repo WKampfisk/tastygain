@@ -1,0 +1,53 @@
+{
+  "name": "StoreProduct",
+  "type": "object",
+  "description": "Norwegian grocery catalogue product (seed v1: REMA, KIWI, COOP, SPAR, Bunnpris, Joker)",
+  "properties": {
+    "essential_key": { "type": "string", "description": "Stable key e.g. whole_milk" },
+    "name_nb": { "type": "string" },
+    "name_en": { "type": "string" },
+    "brand": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": [
+        "fruit_veg",
+        "dairy",
+        "meat_fish",
+        "bread_bakery",
+        "frozen",
+        "pantry",
+        "drinks",
+        "snacks",
+        "nutritional_drinks",
+        "household"
+      ]
+    },
+    "pack_label": { "type": "string" },
+    "unit": { "type": "string" },
+    "gtin": { "type": "string" },
+    "is_essential_seed": { "type": "boolean", "default": true },
+    "prices": {
+      "type": "array",
+      "description": "Per-chain prices in øre",
+      "items": {
+        "type": "object",
+        "properties": {
+          "chain": { "type": "string" },
+          "price_ore": { "type": "integer" },
+          "is_on_sale": { "type": "boolean" }
+        }
+      }
+    },
+    "available_chains": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["name_nb", "category"],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

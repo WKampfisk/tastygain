@@ -1,0 +1,48 @@
+{
+  "name": "DailyReadiness",
+  "type": "object",
+  "description": "Optional daily readiness — improves suggestions only, never scored",
+  "properties": {
+    "household_id": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "appetite": {
+      "type": "string",
+      "enum": ["very_low", "low", "moderate", "good", "not_recorded"],
+      "default": "not_recorded"
+    },
+    "nausea": {
+      "type": "string",
+      "enum": ["none", "mild", "moderate", "strong", "not_recorded"],
+      "default": "not_recorded"
+    },
+    "energy": {
+      "type": "string",
+      "enum": ["very_low", "low", "moderate", "good", "not_recorded"],
+      "default": "not_recorded"
+    },
+    "stress": {
+      "type": "string",
+      "enum": ["low", "moderate", "high", "not_recorded"],
+      "default": "not_recorded"
+    },
+    "manageable_foods": { "type": "array", "items": { "type": "string" } },
+    "avoid_today": { "type": "array", "items": { "type": "string" } },
+    "prefer_hot_cold": {
+      "type": "string",
+      "enum": ["hot", "cold", "either", "not_recorded"],
+      "default": "not_recorded"
+    },
+    "prefer_liquid_solid": {
+      "type": "string",
+      "enum": ["liquid", "solid", "either", "not_recorded"],
+      "default": "not_recorded"
+    }
+  },
+  "required": ["household_id", "date"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

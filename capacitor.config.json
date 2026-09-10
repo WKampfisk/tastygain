@@ -1,0 +1,22 @@
+{
+  "appId": "app.idellicious.care",
+  "appName": "Idellicious",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "preferredContentMode": "mobile"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "backgroundColor": "#f6faf6",
+      "showSpinner": false
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "name": "FoodLog",
+  "type": "object",
+  "description": "Quick checkbox food log — trauma-informed, no scores",
+  "properties": {
+    "household_id": { "type": "string" },
+    "logged_at": { "type": "string", "format": "date-time" },
+    "meal_name": { "type": "string" },
+    "period": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "offered",
+        "ate_all",
+        "ate_some",
+        "drank_all",
+        "drank_some",
+        "saved_for_later",
+        "did_not_feel_manageable",
+        "skipped_without_pressure"
+      ],
+      "default": "ate_some"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "none",
+        "no_appetite",
+        "nausea",
+        "anxiety",
+        "texture",
+        "smell",
+        "too_large",
+        "too_hot",
+        "too_cold",
+        "too_sweet",
+        "too_heavy",
+        "pain",
+        "fatigue",
+        "unknown",
+        "prefer_not_to_say"
+      ],
+      "default": "none"
+    },
+    "notes": { "type": "string" },
+    "visibility": {
+      "type": "string",
+      "enum": ["household", "private_supported", "shared_with_supporter"],
+      "default": "household"
+    },
+    "created_by_role": {
+      "type": "string",
+      "enum": ["supporter", "supported"],
+      "default": "supporter"
+    }
+  },
+  "required": ["household_id", "meal_name", "status"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

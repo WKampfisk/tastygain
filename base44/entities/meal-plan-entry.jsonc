@@ -1,0 +1,47 @@
+{
+  "name": "MealPlanEntry",
+  "type": "object",
+  "description": "Planned eating opportunity for a date and period",
+  "properties": {
+    "household_id": { "type": "string" },
+    "date": { "type": "string", "format": "date" },
+    "period": {
+      "type": "string",
+      "enum": ["morning", "mid_morning", "lunch", "afternoon", "dinner", "evening"],
+      "default": "lunch"
+    },
+    "recipe_id": { "type": "string" },
+    "recipe_name": { "type": "string" },
+    "portion_label": { "type": "string", "default": "small" },
+    "planned_servings": { "type": "integer", "default": 1 },
+    "is_optional": { "type": "boolean", "default": false },
+    "backup_name": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "prepared",
+        "offered",
+        "ate_all",
+        "ate_some",
+        "drank_all",
+        "drank_some",
+        "saved_for_later",
+        "did_not_feel_manageable",
+        "skipped_without_pressure",
+        "swapped"
+      ],
+      "default": "planned"
+    },
+    "notes": { "type": "string" },
+    "prep_minutes": { "type": "integer" },
+    "is_prepared": { "type": "boolean", "default": false }
+  },
+  "required": ["household_id", "date", "period"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

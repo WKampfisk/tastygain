@@ -1,0 +1,46 @@
+{
+  "name": "ShoppingItem",
+  "type": "object",
+  "description": "Shopping list line — free-text or Norwegian store catalogue product",
+  "properties": {
+    "household_id": { "type": "string" },
+    "name": { "type": "string" },
+    "name_nb": { "type": "string", "description": "Norwegian shelf name when from catalogue" },
+    "quantity": { "type": "string", "default": "1" },
+    "unit": { "type": "string", "default": "stk" },
+    "category": {
+      "type": "string",
+      "enum": [
+        "fruit_veg",
+        "dairy",
+        "meat_fish",
+        "bread_bakery",
+        "frozen",
+        "pantry",
+        "drinks",
+        "snacks",
+        "nutritional_drinks",
+        "household"
+      ],
+      "default": "pantry"
+    },
+    "checked": { "type": "boolean", "default": false },
+    "estimated_price_ore": { "type": "integer" },
+    "preferred_chain": {
+      "type": "string",
+      "enum": ["rema_1000", "kiwi", "coop", "spar", "bunnpris", "joker"]
+    },
+    "store_product_key": { "type": "string" },
+    "gtin": { "type": "string" },
+    "automatic_reason": { "type": "string" },
+    "notes": { "type": "string" },
+    "is_essential": { "type": "boolean", "default": false }
+  },
+  "required": ["household_id", "name"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}

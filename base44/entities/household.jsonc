@@ -1,0 +1,43 @@
+{
+  "name": "Household",
+  "type": "object",
+  "description": "Kitchen tenancy: one household inventory and shopping list",
+  "properties": {
+    "name": { "type": "string", "description": "Household display name" },
+    "owner_user_id": { "type": "string" },
+    "preferred_chains": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Store chains: rema_1000, kiwi, coop, spar, bunnpris, joker"
+    },
+    "min_freezer_meals": { "type": "integer", "default": 6 },
+    "min_smoothie_servings": { "type": "integer", "default": 4 },
+    "min_easy_breakfasts": { "type": "integer", "default": 5 },
+    "min_snacks": { "type": "integer", "default": 7 },
+    "min_nutritional_drinks": { "type": "integer", "default": 4 },
+    "discreet_mode": { "type": "boolean", "default": false },
+    "hide_calories": { "type": "boolean", "default": true },
+    "show_protein": { "type": "boolean", "default": true },
+    "goal": { "type": "string", "default": "muscle_gain" },
+    "target_eating_events": { "type": "integer", "default": 6 },
+    "flavor_prefs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "sweet, salty, cake, candy"
+    },
+    "onboarding_complete": { "type": "boolean", "default": false },
+    "consent_mode": {
+      "type": "string",
+      "enum": ["linked", "supporter_only", "proxy_attested"],
+      "default": "supporter_only"
+    },
+    "quick_exit_url": { "type": "string", "default": "https://www.yr.no" }
+  },
+  "required": ["name"],
+  "rls": {
+    "create": true,
+    "read": { "created_by": "{{user.email}}" },
+    "update": { "created_by": "{{user.email}}" },
+    "delete": { "created_by": "{{user.email}}" }
+  }
+}
