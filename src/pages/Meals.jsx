@@ -112,14 +112,14 @@ export default function Meals() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-1 overflow-x-auto pb-1 -mx-1 px-1">
+      <div className="flex gap-1 overflow-x-auto no-scrollbar snap-x pb-1 -mx-1 px-1">
         {TABS.map((t) => (
           <button
             key={t.id}
             type="button"
             onClick={() => setTab(t.id)}
             className={cn(
-              'px-3 py-2 rounded-full text-sm font-medium whitespace-nowrap',
+              'px-4 min-h-[44px] rounded-full text-sm font-medium whitespace-nowrap snap-start',
               tab === t.id
                 ? 'bg-nc-green text-white'
                 : 'bg-nc-card border border-nc-border text-nc-muted'
@@ -176,14 +176,14 @@ export default function Meals() {
       {tab === 'session' && <SessionWizard onOpenRecipe={setSelected} />}
       {tab === 'discover' && (
         <div className="space-y-3">
-          <div className="flex gap-1 overflow-x-auto pb-1 -mx-1 px-1">
+          <div className="flex gap-1 overflow-x-auto no-scrollbar snap-x pb-1 -mx-1 px-1">
             {CHIPS.map((c) => (
               <button
                 key={c.id}
                 type="button"
                 onClick={() => setTab('discover', c.id)}
                 className={cn(
-                  'px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap',
+                  'px-4 min-h-[44px] rounded-full text-sm font-medium whitespace-nowrap snap-start',
                   chipParam === c.id
                     ? 'bg-lime-200 text-nc-green-dark'
                     : 'bg-nc-card border border-nc-border text-nc-muted'

@@ -59,11 +59,26 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100dvh;
   }
 
   body {
     @apply bg-nc-bg text-nc-ink antialiased;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overscroll-behavior-y: none;
+    touch-action: manipulation;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
   }
 
   :focus-visible {
@@ -77,6 +92,13 @@
   }
   .safe-bottom {
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0));
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
 

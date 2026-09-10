@@ -1,12 +1,12 @@
 {
-  "id": "/",
+  "id": "./",
   "name": "TastyGain",
   "short_name": "TastyGain",
   "description": "Small tasty portions so you eat enough to gain muscle. Cake, candy, salty and sweet. Not a medical app.",
   "lang": "nb",
   "dir": "ltr",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#fbf6f1",
@@ -78,19 +78,19 @@
     {
       "name": "I dag / Today",
       "short_name": "I dag",
-      "url": "/today",
+      "url": "./today",
       "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Handleliste / Shopping",
       "short_name": "Handle",
-      "url": "/shopping",
+      "url": "./shopping",
       "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
     },
     {
       "name": "Mitt hjem / Home",
       "short_name": "Hjem",
-      "url": "/kitchen",
+      "url": "./kitchen",
       "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
     }
   ],

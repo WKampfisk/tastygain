@@ -7,6 +7,7 @@ Forked from NourishCare (household meal planning, Norwegian store catalogues, ki
 | | |
 |--|--|
 | **GitHub** | https://github.com/WKampfisk/tastygain |
+| **GitHub Pages (credit-free)** | https://wkampfisk.github.io/tastygain/ |
 | **Base44 app** | `6a8c70e20596effd80c14869` |
 | **Live site** | https://tasty-gain-80c14869.base44.app |
 | **Dashboard** | https://app.base44.com/apps/6a8c70e20596effd80c14869/editor/workspace/overview |
@@ -33,7 +34,17 @@ npm run dev
 
 ## Deploy
 
+**Default path is GitHub Actions → GitHub Pages.** That build sets `VITE_OFFLINE_STACK=true` so the app does not call Base44 AI, agents, or functions. State lives in the phone’s localStorage. No Base44 credits.
+
+```powershell
+npm run build
+```
+
+Optional Base44 static hosting (not AI credits, still uses Base44):
+
 ```powershell
 npm run build
 npx base44 deploy -y
 ```
+
+GitHub Pages URL after CI on `main`: https://wkampfisk.github.io/tastygain/

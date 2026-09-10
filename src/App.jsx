@@ -10,10 +10,12 @@ import Shopping from '@/pages/Shopping';
 import Tips from '@/pages/Tips';
 import Settings from '@/pages/Settings';
 
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || undefined;
+
 export default function App() {
   return (
     <StoreProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/onboarding" element={<Onboarding />} />

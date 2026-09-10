@@ -24,7 +24,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="max-w-lg mx-auto min-h-screen bg-nc-bg px-4 py-4 pb-16">
+    <div className="max-w-lg mx-auto min-h-dvh bg-nc-bg px-4 py-4 pb-[max(4rem,env(safe-area-inset-bottom))]">
       <button
         type="button"
         onClick={() => nav(-1)}
@@ -199,7 +199,7 @@ export default function Settings() {
               ? 'Data is stored locally on this device.'
               : 'Data lagres lokalt på denne enheten.'}
         </p>
-        {!user && (
+        {!user && import.meta.env.VITE_OFFLINE_STACK !== 'true' && (
           <BigButton
             variant="secondary"
             className="w-full"

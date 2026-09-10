@@ -115,6 +115,10 @@ export function StoreProvider({ children }) {
   }, [state.locale, state.household?.flags?.idelliciousUi]);
 
   useEffect(() => {
+    if (import.meta.env.VITE_OFFLINE_STACK === 'true') {
+      setAuthChecked(true);
+      return;
+    }
     let cancelled = false;
     (async () => {
       try {

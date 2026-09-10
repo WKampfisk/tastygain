@@ -25,7 +25,7 @@ export default function AppShell() {
   ];
 
   return (
-    <div className="min-h-screen bg-nc-bg text-nc-ink flex flex-col max-w-lg mx-auto relative">
+    <div className="min-h-dvh bg-nc-bg text-nc-ink flex flex-col max-w-lg mx-auto relative">
       <header className="sticky top-0 z-30 bg-nc-bg/95 backdrop-blur border-b border-nc-border safe-top">
         <div className="px-4 py-2.5 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -41,7 +41,7 @@ export default function AppShell() {
             <button
               type="button"
               onClick={() => navigate('/settings')}
-              className="p-2.5 rounded-xl bg-nc-card border border-nc-border"
+              className="p-2.5 min-h-[44px] min-w-[44px] rounded-xl bg-nc-card border border-nc-border"
               aria-label={t('settings')}
             >
               <Settings className="w-5 h-5 text-nc-muted" />
@@ -52,14 +52,14 @@ export default function AppShell() {
 
       <PlanSessionBar />
 
-      <main className="flex-1 px-4 py-4 pb-28 overflow-x-hidden relative flex flex-col min-h-0">
+      <main className="flex-1 px-4 py-4 pb-[calc(5.75rem+env(safe-area-inset-bottom,0px))] overflow-x-hidden relative flex flex-col min-h-0">
         <div className="flex-1">
           <Outlet />
         </div>
       </main>
 
       {(toast || undoStack) && (
-        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 max-w-[90%] flex items-center gap-3 px-4 py-3 rounded-2xl bg-nc-ink text-white shadow-lg text-sm">
+        <div className="fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom,0px))] left-1/2 -translate-x-1/2 z-40 max-w-[90%] flex items-center gap-3 px-4 py-3 rounded-2xl bg-nc-ink text-white shadow-lg text-sm">
           <span>{toast || t('toast.updated')}</span>
           {undoStack && (
             <button type="button" className="underline font-medium" onClick={undoLast}>
@@ -73,14 +73,14 @@ export default function AppShell() {
         className="fixed bottom-0 left-0 right-0 z-30 border-t border-nc-border bg-nc-card/95 backdrop-blur safe-bottom"
         aria-label={t('mainNav')}
       >
-        <div className="max-w-lg mx-auto flex justify-around px-1 py-2">
+        <div className="max-w-lg mx-auto flex justify-around px-1 py-1.5">
           {nav.map(({ to, label, icon: Icon }) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
                 cn(
-                  'flex flex-col items-center gap-0.5 min-w-[4.25rem] py-1.5 px-2 rounded-xl text-[11px] font-medium transition-colors',
+                  'flex flex-col items-center justify-center gap-0.5 flex-1 min-w-0 min-h-[48px] py-1 px-1 rounded-xl text-[10px] leading-tight font-medium transition-colors',
                   isActive ? 'text-nc-green bg-nc-green/10' : 'text-nc-muted hover:text-nc-ink'
                 )
               }

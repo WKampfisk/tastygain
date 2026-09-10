@@ -53,7 +53,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-nc-bg max-w-lg mx-auto px-4 py-8">
+    <div className="min-h-dvh bg-nc-bg max-w-lg mx-auto px-4 py-8 pb-[max(2rem,env(safe-area-inset-bottom))]">
       <p className="text-xs text-nc-muted mb-2">{t('onboarding.stepOf', [step + 1, steps.length])}</p>
 
       {id === 'language' && (

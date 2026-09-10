@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import { BigButton } from '@/components/ui/Card';
 import { useStore } from '@/lib/store';
 import AppLogo from '@/components/AppLogo';
+import InstallBanner from '@/components/InstallBanner';
 
 export default function Welcome() {
   const nav = useNavigate();
   const { state, t, setLocale, locale } = useStore();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-nc-beige via-nc-bg to-nc-peach/40 max-w-lg mx-auto px-6 py-16 flex flex-col">
+    <div className="min-h-dvh bg-gradient-to-b from-nc-beige via-nc-bg to-nc-peach/40 max-w-lg mx-auto px-6 py-12 pb-[max(2rem,env(safe-area-inset-bottom))] flex flex-col">
       <div className="flex-1 flex flex-col justify-center space-y-6">
         <AppLogo size={88} className="w-22 h-22 w-[5.5rem] h-[5.5rem] rounded-3xl shadow-md" alt={t('appName')} />
         <div>
@@ -39,6 +40,7 @@ export default function Welcome() {
           ))}
         </div>
 
+        <InstallBanner />
         <ul className="space-y-2 text-sm text-nc-ink-soft">
           <li>· {t('mealAvailable')}</li>
           <li>· {t('somethingSmall')}</li>
