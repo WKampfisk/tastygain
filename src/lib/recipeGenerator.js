@@ -1,6 +1,6 @@
 import { uid } from '@/lib/utils';
 import { defaultContainersForCategory } from '@/lib/containers';
-import { CATEGORY_IMAGES, VARIANT_IMAGES, imageForVariantName } from '@/data/recipeImages';
+import { uniqueImageForGenerated } from '@/data/recipeImages';
 
 /**
  * Variasjoner for automatisk oppskriftsgenerering (norsk).
@@ -184,6 +184,68 @@ const SNACK_VARIANTS = [
     ],
     icon: '🧀',
   },
+  {
+    imageKey: 'gen_cinnamon_toast',
+    name: 'Kaneltoast',
+    description: 'Liten skive med kanel og sukker.',
+    ingredients: [
+      { name: 'Brød', quantity: '1', unit: 'skive' },
+      { name: 'Smør', quantity: '1', unit: 'ts' },
+      { name: 'Honning', quantity: '1', unit: 'ts' },
+    ],
+    icon: '🍞',
+  },
+  {
+    imageKey: 'gen_cottage_berries',
+    name: 'Kesam med bær',
+    description: 'Søtt, proteinrikt og lite.',
+    ingredients: [
+      { name: 'Kesam', quantity: '1,5', unit: 'dl' },
+      { name: 'Frosne bær', quantity: '0,5', unit: 'dl' },
+    ],
+    icon: '🍓',
+  },
+  {
+    imageKey: 'gen_hot_chocolate',
+    name: 'Kakao med krem',
+    description: 'Varm, søt og liten kopp.',
+    ingredients: [
+      { name: 'Helmelk', quantity: '2', unit: 'dl' },
+      { name: 'Kakao', quantity: '1', unit: 'ts' },
+      { name: 'Kremfløte', quantity: '1', unit: 'ss', optional: true },
+    ],
+    icon: '☕',
+  },
+  {
+    imageKey: 'gen_tuna_mayo',
+    name: 'Tunfisk på kjeks',
+    description: 'Salt, raskt, to kjeks.',
+    ingredients: [
+      { name: 'Knekkebrød', quantity: '2', unit: 'stk' },
+      { name: 'Majones', quantity: '1', unit: 'ts' },
+    ],
+    icon: '🐟',
+  },
+  {
+    imageKey: 'gen_egg_toast',
+    name: 'Egg og toast',
+    description: 'Halvt egg og smørtoast.',
+    ingredients: [
+      { name: 'Egg', quantity: '1', unit: 'stk' },
+      { name: 'Brød', quantity: '1', unit: 'skive' },
+      { name: 'Smør', quantity: '1', unit: 'ts' },
+    ],
+    icon: '🥚',
+  },
+  {
+    imageKey: 'gen_apple_peanut',
+    name: 'Eple med peanøttsmør',
+    description: 'Søtt og salt i små biter.',
+    ingredients: [
+      { name: 'Peanøttsmør', quantity: '1', unit: 'ss' },
+    ],
+    icon: '🍎',
+  },
 ];
 
 const SOUP_VARIANTS = [
@@ -233,6 +295,39 @@ const DESSERT_VARIANTS = [
     ],
     icon: '🍌',
   },
+  {
+    imageKey: 'gen_mini_pancakes',
+    name: 'Mini-pannekaker med honning',
+    description: 'To små pannekaker — søtt og nok.',
+    ingredients: [
+      { name: 'Egg', quantity: '1', unit: 'stk' },
+      { name: 'Havregryn', quantity: '2', unit: 'ss' },
+      { name: 'Helmelk', quantity: '0,5', unit: 'dl' },
+      { name: 'Honning', quantity: '1', unit: 'ts' },
+    ],
+    icon: '🥞',
+  },
+  {
+    imageKey: 'gen_caramel_yoghurt',
+    name: 'Karamellyoghurt',
+    description: 'Liten glassdessert, søt og kremet.',
+    ingredients: [
+      { name: 'Vaniljeyoghurt', quantity: '1,5', unit: 'dl' },
+      { name: 'Honning', quantity: '1', unit: 'ts' },
+    ],
+    icon: '🍮',
+  },
+  {
+    imageKey: 'gen_waffle_bite',
+    name: 'Vaffelbit med sjokolade',
+    description: 'Én vaffel, sjokoladedryss.',
+    ingredients: [
+      { name: 'Egg', quantity: '1', unit: 'stk' },
+      { name: 'Havregryn', quantity: '2', unit: 'ss' },
+      { name: 'Kakao', quantity: '1', unit: 'ts', optional: true },
+    ],
+    icon: '🧇',
+  },
 ];
 
 function poolForCategory(category) {
@@ -281,11 +376,7 @@ export function generateRecipeFromUse(sourceRecipe, existingRecipes = [], househ
 
   const portions = sourceRecipe?.portions || (category === 'dinner' ? 4 : 1);
   const containers = defaultContainersForCategory(category).map((c) => ({ ...c }));
-  const image_url =
-    (variant.imageKey && VARIANT_IMAGES[variant.imageKey]) ||
-    imageForVariantName(variant.name) ||
-    CATEGORY_IMAGES[category] ||
-    CATEGORY_IMAGES.snack_small;
+  const image_url = uniqueImageForGenerated(variant.imageKey, existingRecipes, name);
 
   return {
     id: uid('gen'),

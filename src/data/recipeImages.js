@@ -1,11 +1,17 @@
 /**
- * Recipe photography for Idellicious.
- * Prefer unique local AI meal photos under /recipe-images/; fall back by category.
+ * Unique local meal photos under /recipe-images/.
+ * Paths respect Vite BASE_URL (GitHub Pages /tastygain/).
  */
 
-const local = (id) => `/recipe-images/${id}.jpg`;
+function asset(id) {
+  const base = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/';
+  const prefix = base.endsWith('/') ? base : `${base}/`;
+  return `${prefix}recipe-images/${id}.jpg`;
+}
 
-/** Per-recipe unique meal photos (AI-generated food photography) */
+const local = (id) => asset(id);
+
+/** Per-recipe unique meal photos */
 export const RECIPE_IMAGES = {
   r_bp_shake: local('r_bp_shake'),
   r_berry_smoothie: local('r_berry_smoothie'),
@@ -41,14 +47,13 @@ export const RECIPE_IMAGES = {
   r_ice_cream_shake: local('r_ice_cream_shake'),
   r_chips_kesam: local('r_chips_kesam'),
   r_bacon_egg: local('r_bacon_egg'),
-  r_skyr_jam: local('r_yoghurt_bowl'),
-  r_choc_pudding: local('r_rice_pudding'),
-  r_nuts_cheese: local('r_crackers_cheese'),
-  r_ham_cheese: local('r_cheese_toast'),
-  r_protein_bar_candy: local('r_choc_shake'),
+  r_skyr_jam: local('r_skyr_jam'),
+  r_choc_pudding: local('r_choc_pudding'),
+  r_nuts_cheese: local('r_nuts_cheese'),
+  r_ham_cheese: local('r_ham_cheese'),
+  r_protein_bar_candy: local('r_protein_bar_candy'),
 };
 
-/** Category fallbacks if a specific variant photo is missing */
 export const CATEGORY_IMAGES = {
   smoothie_shake: local('cat_smoothie_shake'),
   dinner: local('cat_dinner'),
@@ -58,7 +63,6 @@ export const CATEGORY_IMAGES = {
   dessert: local('cat_dessert'),
 };
 
-/** Unique AI meal photos for every auto-generated recipe variant */
 export const VARIANT_IMAGES = {
   gen_havre_honning_shake: local('gen_havre_honning_shake'),
   gen_vanilje_banan_shake: local('gen_vanilje_banan_shake'),
@@ -79,9 +83,33 @@ export const VARIANT_IMAGES = {
   gen_gulrotsuppe: local('gen_gulrotsuppe'),
   gen_vaniljeyoghurt: local('gen_vaniljeyoghurt'),
   gen_banan_kakao: local('gen_banan_kakao'),
+  gen_mini_pancakes: local('gen_mini_pancakes'),
+  gen_cinnamon_toast: local('gen_cinnamon_toast'),
+  gen_cottage_berries: local('gen_cottage_berries'),
+  gen_hot_chocolate: local('gen_hot_chocolate'),
+  gen_tuna_mayo: local('gen_tuna_mayo'),
+  gen_egg_toast: local('gen_egg_toast'),
+  gen_caramel_yoghurt: local('gen_caramel_yoghurt'),
+  gen_waffle_bite: local('gen_waffle_bite'),
+  gen_apple_peanut: local('gen_apple_peanut'),
 };
 
-/** Match generated recipe names (with optional " (2)" suffix) to variant photos */
+/** Extra unique photos assigned when a generated recipe would otherwise reuse an image */
+export const EXTRA_IMAGE_KEYS = [
+  'gen_mini_pancakes',
+  'gen_cinnamon_toast',
+  'gen_cottage_berries',
+  'gen_hot_chocolate',
+  'gen_tuna_mayo',
+  'gen_egg_toast',
+  'gen_caramel_yoghurt',
+  'gen_waffle_bite',
+  'gen_apple_peanut',
+  'gen_ost_eple',
+  'gen_ricotta_brod',
+  'gen_banan_kakao',
+];
+
 const VARIANT_NAME_TO_KEY = {
   'havre-honning-shake': 'gen_havre_honning_shake',
   'vanilje-banan-shake': 'gen_vanilje_banan_shake',
@@ -102,7 +130,23 @@ const VARIANT_NAME_TO_KEY = {
   'gulrotsuppe med fløte': 'gen_gulrotsuppe',
   'vaniljeyoghurt med honning': 'gen_vaniljeyoghurt',
   'banan med kakao': 'gen_banan_kakao',
+  'mini-pannekaker med honning': 'gen_mini_pancakes',
+  'kaneltoast': 'gen_cinnamon_toast',
+  'kesam med bær': 'gen_cottage_berries',
+  'kakao med krem': 'gen_hot_chocolate',
+  'tunfisk på kjeks': 'gen_tuna_mayo',
+  'egg og toast': 'gen_egg_toast',
+  'karamellyoghurt': 'gen_caramel_yoghurt',
+  'vaffelbit med sjokolade': 'gen_waffle_bite',
+  'eple med peanøttsmør': 'gen_apple_peanut',
 };
+
+function hashString(s) {
+  let h = 0;
+  const str = String(s || '');
+  for (let i = 0; i < str.length; i += 1) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  return h;
+}
 
 export function imageForVariantName(name) {
   if (!name) return null;
@@ -112,6 +156,30 @@ export function imageForVariantName(name) {
     .trim();
   const key = VARIANT_NAME_TO_KEY[base];
   return key ? VARIANT_IMAGES[key] : null;
+}
+
+export function isCategoryFallback(url) {
+  return Object.values(CATEGORY_IMAGES).includes(url);
+}
+
+/**
+ * Pick a unique photo not already used by existing recipes.
+ * Preferred key first, then unused extras, then a hashed extra (still a food photo).
+ */
+export function uniqueImageForGenerated(preferredKey, existingRecipes = [], salt = '') {
+  const used = new Set(
+    (existingRecipes || [])
+      .map((r) => r.image_url)
+      .filter(Boolean)
+  );
+  const preferred = preferredKey && VARIANT_IMAGES[preferredKey];
+  if (preferred && !used.has(preferred)) return preferred;
+  for (const key of EXTRA_IMAGE_KEYS) {
+    const url = VARIANT_IMAGES[key];
+    if (url && !used.has(url)) return url;
+  }
+  const idx = hashString(preferredKey || salt) % EXTRA_IMAGE_KEYS.length;
+  return VARIANT_IMAGES[EXTRA_IMAGE_KEYS[idx]] || CATEGORY_IMAGES.snack_small;
 }
 
 export const RECIPE_NAME_EN = {
@@ -140,19 +208,31 @@ export const RECIPE_NAME_EN = {
   r_rice_pudding: 'Rice pudding cup',
   r_banana_custard: 'Banana custard pot',
   r_tomato_soup: 'Mild tomato soup',
+  r_mug_cake: 'Protein mug cake',
+  r_protein_brownie: 'Mini protein brownie',
+  r_cheesecake_cup: 'Cheesecake cup',
+  r_snickers_bites: 'Date snickers bites',
+  r_yoghurt_bark: 'Yoghurt bark with chocolate',
+  r_protein_balls: 'Protein balls',
+  r_ice_cream_shake: 'Ice cream protein shake',
+  r_chips_kesam: 'Chips and cottage cheese dip',
+  r_bacon_egg: 'Bacon and egg mini',
+  r_skyr_jam: 'Skyr with jam and granola',
+  r_choc_pudding: 'Chocolate pudding with cream',
+  r_nuts_cheese: 'Salted nuts and cheese',
+  r_ham_cheese: 'Ham, cheese and mayo rolls',
+  r_protein_bar_candy: 'Chocolate protein bar',
 };
 
 export function imageForRecipe(recipe) {
   if (!recipe) return CATEGORY_IMAGES.snack_small;
-  // Prefer unique local AI photo over generic category fallback URLs
   if (recipe.image_key && VARIANT_IMAGES[recipe.image_key]) {
     return VARIANT_IMAGES[recipe.image_key];
   }
   const byName = imageForVariantName(recipe.name || recipe.name_nb);
   if (byName) return byName;
   if (recipe.id && RECIPE_IMAGES[recipe.id]) return RECIPE_IMAGES[recipe.id];
-  // Keep explicit image_url if it is already a local recipe-images path
-  if (recipe.image_url && String(recipe.image_url).startsWith('/recipe-images/')) {
+  if (recipe.image_url && String(recipe.image_url).includes('recipe-images/')) {
     return recipe.image_url;
   }
   if (recipe.category && CATEGORY_IMAGES[recipe.category]) {
